@@ -19,7 +19,7 @@
       }
     }
     _hdr.style.backgroundImage = 'url(data:image/png;base64,' + _corrupted + ')';
-    return debounce(update);
+    return debounce(update, 200);
   }
   
   function debounce (func, wait) {
