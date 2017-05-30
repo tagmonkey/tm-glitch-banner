@@ -19,7 +19,27 @@
       }
     }
     _hdr.style.backgroundImage = 'url(data:image/png;base64,' + _corrupted + ')';
-    win.setTimeout(update, 200);
+    return debounce(update);
+  }
+  
+  function debounce (func, wait) {
+    var scheduled, args, context, timestamp;
+    return function () {
+      context = this;
+      args = [];
+      timestamp = win.performance.now;
+      for (var i = 0; i < arguments.length; ++i) { args[i] = arguments[i]; }
+      if (!scheduled) { scheduled = win.setTimeout(later, wait); }
+      function later () {
+        var last = win.performance.now - timestamp;
+        if (last < wait) {
+          scheduled = win.setTimeout(later, wait - last);
+        } else {
+          scheduled = null;
+          func.apply(context, args);
+        }
+      }
+    };
   }
   
 })(window, window.document);
